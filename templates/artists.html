@@ -1,0 +1,164 @@
+{% extends "base.html" %} {% block title %}Artist Data{% endblock %} {% block
+content %}
+<br>
+<h2 class="display-4 text-center">View Artist Data</h2>
+<hr />
+<form method="POST">
+  <div class="d-flex justify-content-center mt-5">
+    <div class="btn-group" role="group" aria-label="Button group">
+      <button
+        type="button"
+        class="btn btn-secondary border"
+        onclick="location.href='/'"
+      >
+        Return Home
+      </button>
+      <button
+        type="button"
+        class="btn btn-warning border"
+        onclick="location.href='/change'"
+      >
+        Change Data
+      </button>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="artist">Artist name(s):</label>
+    <input
+      type="text"
+      class="form-control"
+      id="artist"
+      name="artist"
+      value="{{ search }}"
+    />
+  </div>
+  <div class="form-group">
+    <label for="genre">Genre:</label>
+    <input
+      type="text"
+      class="form-control"
+      id="genre"
+      name="genre"
+      value="{{ genre }}"
+    />
+  </div>
+  <div class="form-group">
+    <label for="order">Order by:</label>
+    <select id="order" name="order">
+      <option value="" {% if not order %}selected{% endif %} disabled>-- Select --</option>
+      <option value="Artist" {% if order == 'Artist' %}selected{% endif %}>Artist Name Alphabetical</option>
+      <option value="genre" {% if order == 'genre' %}selected{% endif %}>Genre Alphabetical</option>
+      <option value="num_tracks" {% if order == 'num_tracks' %}selected{% endif %}>Num Songs on file</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="pie">Show genre chart?</label>
+    <input type="checkbox" id="pie" name="pie" {% if pie %}checked{% endif %}/>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+<br />
+{% if pie_url %}
+<div class="border p-3">
+  <div class="d-flex justify-content-center">
+    <img src="{{ pie_url }}" alt="Genres Pie Chart" />
+  </div>
+</div>
+{% endif %}
+{% if page_results or results %}
+<h3>Results:</h3>
+<div class="btn-group" role="group" aria-label="Button group">
+  {% if page > 1 %}
+  <button
+    type="button"
+    class="btn btn-secondary border"
+    onclick="location.href='?page=1'"
+  >
+    First
+  </button>
+  <button
+    type="button"
+    class="btn btn-primary border"
+    onclick="location.href='?page={{ page - 1 }}'"
+  >
+    Prev
+  </button>
+  {% endif %}
+  <button type="button" class="btn btn-secondary border">Pg {{ page }}</button>
+  {% if page < (results|length / 30) | round(0, 'ceil') %} {% set last_page =
+  ((results|length / 30) | round(0, 'ceil')) | int %}
+  <button
+    type="button"
+    class="btn btn-primary border"
+    onclick="location.href='?page={{ page + 1 }}'"
+  >
+    Next
+  </button>
+  <button
+    type="button"
+    class="btn btn-secondary border"
+    onclick="location.href='?page={{ last_page }}'"
+  >
+    Last
+  </button>
+  {% endif %}
+</div>
+<br />
+{% if page_results %} {% set display = page_results %} {% else %} {% set display
+  = results %} {% endif %} {% for tuple in display %}
+<div class="border p-3">
+  <div class="row">
+    <div class="col-md-6">
+      <ul class="list-unstyled">
+        <li><b>Artist Name:</b> {{ tuple[0] }}</li>
+        <li><b>Facebook:</b> {{ tuple[1] }}</li>
+        <li><b>Twitter:</b> {{ tuple[2] }}</li>
+        <li><b>Website:</b> {{ tuple[3] }}</li>
+        <li><b>Genre:</b> {{ tuple[4] }}</li>
+        <li><b>MTV:</b> {{ tuple[5] }}</li>
+      </ul>
+    </div>
+    <div class="col-md-6">
+      <p><b>Number of songs on file:</b> {{ tuple[6] }}</p>
+    </div>
+  </div>
+</div>
+{% endfor %}
+<br />
+<div class="btn-group" role="group" aria-label="Button group">
+  {% if page > 1 %}
+  <button
+    type="button"
+    class="btn btn-secondary border"
+    onclick="location.href='?page=1'"
+  >
+    First
+  </button>
+  <button
+    type="button"
+    class="btn btn-primary border"
+    onclick="location.href='?page={{ page - 1 }}'"
+  >
+    Prev
+  </button>
+  {% endif %}
+  <button type="button" class="btn btn-secondary border">Pg {{ page }}</button>
+  {% if page < (results|length / 30) | round(0, 'ceil') %} {% set last_page =
+  ((results|length / 30) | round(0, 'ceil')) | int %}
+  <button
+    type="button"
+    class="btn btn-primary border"
+    onclick="location.href='?page={{ page + 1 }}'"
+  >
+    Next
+  </button>
+  <button
+    type="button"
+    class="btn btn-secondary border"
+    onclick="location.href='?page={{ last_page }}'"
+  >
+    Last
+  </button>
+  {% endif %}
+</div>
+{% endif %} {% endblock %}

@@ -1,0 +1,296 @@
+{% extends "base.html" %} {% block title %}Album Data{% endblock %} {% block
+content %}
+<br>
+<h2 class="display-4 text-center">View Album Data</h2>
+<hr />
+<form method="POST">
+  <div class="d-flex justify-content-center mt-5">
+    <div class="btn-group" role="group" aria-label="Button group">
+      <button
+        type="button"
+        class="btn btn-secondary border"
+        onclick="location.href='/'"
+      >
+        Return Home
+      </button>
+      <button
+        type="button"
+        class="btn btn-warning border"
+        onclick="location.href='/change'"
+      >
+        Change Data
+      </button>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="album">Album title:</label>
+    <input
+      type="text"
+      class="form-control"
+      id="album"
+      name="album"
+      value="{{ search }}"
+    />
+  </div>
+  <div class="form-group">
+    <label for="date1">From (Year):</label>
+    <input
+      type="text"
+      class="form-control"
+      id="date1"
+      name="date1"
+      value="{{ date1 }}"
+    />
+
+    <label for="date2">Until (Year):</label>
+    <input
+      type="text"
+      class="form-control"
+      id="date2"
+      name="date2"
+      value="{{ date2 }}"
+    />
+  </div>
+  <div class="form-group">
+    <label for="order">Order by:</label>
+    <select id="order" name="order">
+      <option value="" {% if not order %}selected{% endif %} disabled>-- Select --</option>
+      <option value="Album" {% if order == 'Album' %}selected{% endif %}>Album Name Alphabetical</option>
+      <option value="ReleaseDate" {% if order == 'ReleaseDate' %}selected{% endif %}>Release Date</option>
+      <option value="AverageRating" {% if order == 'AverageRating' %}selected{% endif %}>Average Rating</option>
+      <option value="NumberofReviews" {% if order == 'NumberofRatings' %}selected{% endif %}>Number of Ratings</option>
+    </select>
+  </div>
+
+  <div class="d-flex justify-content-end">
+    <button
+      type="button"
+      class="btn btn-secondary"
+      data-toggle="collapse"
+      data-target="#advancedOptions"
+    >
+      Advanced Options
+    </button>
+  </div>
+
+  <div class="collapse" id="advancedOptions">
+    <div class="form-group">
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="stat"
+          id="stat1"
+          value="AVG"
+          checked
+        />
+        <label class="form-check-label" for="stat1"> Mean </label>
+      </div>
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="stat"
+          id="stat2"
+          value="MIN"
+        />
+        <label class="form-check-label" for="stat2"> Minimum </label>
+      </div>
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="stat"
+          id="stat3"
+          value="MAX"
+        />
+        <label class="form-check-label" for="stat3"> Maximum </label>
+      </div>
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="stat"
+          id="stat4"
+          value="median"
+        />
+        <label class="form-check-label" for="stat4"> Median </label>
+      </div>
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="stat"
+          id="stat5"
+          value="STDDEV"
+        />
+        <label class="form-check-label" for="stat5">
+          Standard deviation mean
+        </label>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="category">Category:</label>
+      <select id="category" name="category">
+        <option value="" selected disabled>-- Select --</option>
+        <option value="AverageRating">Average Rating</option>
+        <option value="NumberofReviews">Num Reviews</option>
+      </select>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+<br />
+{% if stat_result %}
+<h3>Advanced Results:</h3>
+<div class="border p-3">
+  {% if stat == 'MAX' or stat == 'MIN' %}
+  <p>
+    <b
+      >{% if stat == 'MAX' %}Maximum{% else %}Minimum{% endif %} {{ category }}
+      for your search:
+    </b>
+  </p>
+  <div class="row">
+    <div class="col-md-6">
+      <ul class="list-unstyled">
+        <li><b>Album Title: </b>{{ stat_result[1] }}</li>
+        <li><b>Artist Name(s): </b>{{ stat_result[2] }}</li>
+        <li><b>Release Date: </b>{{ stat_result[3] }}</li>
+        <li><b>Genre(s): </b>{{ stat_result[4] }}</li>
+        <li>
+          <b>Average Rating: </b>{{ stat_result[5] }} ({{ stat_result[6] }}
+          ratings)
+        </li>
+      </ul>
+    </div>
+    {% if tuple[7] %}
+    <div class="col-md-6 ml-auto">
+      <img
+        src="{{ tuple[7] }}"
+        alt="Album Image"
+        class="img-fluid"
+        width="200"
+        height="200"
+      />
+    </div>
+    {% endif %}
+  </div>
+  {% else %}
+  <p>
+    <b
+      >{% if stat == 'AVG' %}Mean{% elif stat == 'median' %}Median{% else
+      %}Standard Deviation{% endif %} {{ category }} for your search: </b
+    >{{ stat_result[0] }}
+  </p>
+  {% endif %}
+</div>
+{% endif %}
+<br /><br />
+{% if page_results or results %}
+<h3>Results:</h3>
+<div class="btn-group" role="group" aria-label="Button group">
+  {% if page > 1 %}
+  <button
+    type="button"
+    class="btn btn-secondary border"
+    onclick="location.href='?page=1'"
+  >
+    First
+  </button>
+  <button
+    type="button"
+    class="btn btn-primary border"
+    onclick="location.href='?page={{ page - 1 }}'"
+  >
+    Prev
+  </button>
+  {% endif %}
+  <button type="button" class="btn btn-secondary border">Pg {{ page }}</button>
+  {% if page < (results|length / 30) | round(0, 'ceil') %} {% set last_page =
+  ((results|length / 30) | round(0, 'ceil')) | int %}
+  <button
+    type="button"
+    class="btn btn-primary border"
+    onclick="location.href='?page={{ page + 1 }}'"
+  >
+    Next
+  </button>
+  <button
+    type="button"
+    class="btn btn-secondary border"
+    onclick="location.href='?page={{ last_page }}'"
+  >
+    Last
+  </button>
+  {% endif %}
+</div>
+<br />
+{% if page_results %} {% set display = page_results %} {% else %} {% set display
+  = results %} {% endif %} {% for tuple in display %}
+<div class="border p-3">
+  <div class="row">
+    <div class="col-md-6">
+      <ul class="list-unstyled">
+        <li><b>Ranking:</b> {{ tuple[0] | int }}</li>
+        <li><b>Album Title:</b> {{ tuple[1] }}</li>
+        <li><b>Artist:</b> {{ tuple[2] }}</li>
+        <li><b>Release Date:</b> {{ tuple[3] }}</li>
+        <li><b>Genre:</b> {{ tuple[4] }}</li>
+        <li>
+          <b>Average Rating:</b> {{ tuple[5] }} / 5 ({{ tuple[6] }} ratings)
+        </li>
+      </ul>
+    </div>
+    {% if tuple[7] %}
+    <div class="col-md-6 ml-auto">
+      <img
+        src="{{ tuple[7] }}"
+        alt="Album Image"
+        class="img-fluid"
+        width="200"
+        height="200"
+      />
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endfor %}
+<br />
+<div class="btn-group" role="group" aria-label="Button group">
+  {% if page > 1 %}
+  <button
+    type="button"
+    class="btn btn-secondary border"
+    onclick="location.href='?page=1'"
+  >
+    First
+  </button>
+  <button
+    type="button"
+    class="btn btn-primary border"
+    onclick="location.href='?page={{ page - 1 }}'"
+  >
+    Prev
+  </button>
+  {% endif %}
+  <button type="button" class="btn btn-secondary border">Pg {{ page }}</button>
+  {% if page < (results|length / 30) | round(0, 'ceil') %} {% set last_page =
+  ((results|length / 30) | round(0, 'ceil')) | int %}
+  <button
+    type="button"
+    class="btn btn-primary border"
+    onclick="location.href='?page={{ page + 1 }}'"
+  >
+    Next
+  </button>
+  <button
+    type="button"
+    class="btn btn-secondary border"
+    onclick="location.href='?page={{ last_page }}'"
+  >
+    Last
+  </button>
+  {% endif %}
+</div>
+{% endif %} {% endblock %}

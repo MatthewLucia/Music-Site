@@ -1,0 +1,74 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
+%}
+<br>
+<h2 class="display-4 text-center">Home</h2>
+<hr />
+<div class="d-flex justify-content-center mt-5">
+  <div class="btn-group" role="group" aria-label="Button group">
+    <button
+      type="button"
+      class="btn btn-secondary border"
+      onclick="location.href='/artists'"
+    >
+      Artists
+    </button>
+    <button
+      type="button"
+      class="btn btn-secondary border"
+      onclick="location.href='/albums'"
+    >
+      Albums
+    </button>
+    <button
+      type="button"
+      class="btn btn-secondary border"
+      onclick="location.href='/songs'"
+    >
+      Songs
+    </button>
+    <button
+      type="button"
+      class="btn btn-warning border"
+      onclick="location.href='/change'"
+    >
+      Change Data
+    </button>
+  </div>
+</div>
+
+<br /><br />
+<h3>About</h3>
+<ul class="list-group">
+  <li class="list-group-item" style="margin-left: 20px">
+    This website is a tool to browse music data including tracks, albums and
+    artists. Click one of the links above to get started.
+  </li>
+</ul>
+
+<br /><br />
+<h3>Credits</h3>
+<ul class="list-group">
+  <li class="list-group-item" style="margin-left: 20px">
+    Songs Dataset:
+    <a
+      id="cred1"
+      href="https://www.kaggle.com/datasets/joebeachcapital/top-10000-spotify-songs-1960-now"
+      >Here</a
+    >
+  </li>
+  <li class="list-group-item" style="margin-left: 20px">
+    Albums Dataset:
+    <a
+      id="cred2"
+      href="https://www.kaggle.com/datasets/michaelbryantds/top-5000-albums-of-all-time-rateyourmusiccom"
+      >Here</a
+    >
+  </li>
+  <li class="list-group-item" style="margin-left: 20px">
+    Artists Dataset:
+    <a id="cred3" href="https://gist.github.com/mbejda/9912f7a366c62c1f296c"
+      >Here</a
+    >
+  </li>
+</ul>
+{% endblock %}

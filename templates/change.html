@@ -1,0 +1,321 @@
+{% extends "base.html" %} {% block title %}Change Data{% endblock %}
+{% block content %}
+<h2 class="display-4 text-center">Change Data</h2>
+<hr>
+<div class="d-flex justify-content-center mt-5">
+    <div class="btn-group" role="group" aria-label="Button group">
+        <button type="button" class="btn btn-secondary border" onclick="location.href='/'">Return Home</button>
+    </div>
+</div>
+<div class="container mt-3">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#addTab">Add</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#removeTab">Remove</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#updateTab">Update</a>
+      </li>
+    </ul>
+    <br>
+    <div class="tab-content">
+      <div id="addTab" class="tab-pane fade show active">
+        <ul class="nav nav-pills">
+          <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#addSong">Song</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#addAlbum">Album</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#addArtist">Artist</a>
+          </li>
+        </ul>
+        <br>
+        <div class="tab-content">
+          <div id="addSong" class="tab-pane fade show active">
+            <h2>Add Song Content</h2>
+            <form method="POST">
+                <div class="form-group">
+                    <label for="trackName">Enter Song Title:</label>
+                    <input type="text" id="trackName" name="trackName" placeholder="Required" required><br>
+
+                    <label for="artistName">Enter Artist Name:</label>
+                    <input type="text" id="artistName" name="artistName" placeholder="Required" required><br>
+
+                    <label for="albumName">Enter Album Title:</label>
+                    <input type="text" id="albumName" name="albumName" placeholder="Required" required><br>
+                
+                    <label for="albumImageURL">Enter Album Cover URL:</label>
+                    <input type="url" id="albumImageURL" name="albumImageURL" placeholder="Enter URL"><br>
+
+                    <label for="label">Enter Label:</label>
+                    <input type="text" id="label" name="label" placeholder="Required" required><br>
+
+                    <label for="duration">Enter Duration (ms):</label>
+                    <input type="number" id="duration" name="duration" placeholder="Required" required>
+
+                    <label for="explicit">Explicit?</label>
+                    <input type="checkbox" id="explicit" name="explicit" >
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn btn-secondary" data-toggle="collapse" data-target="#advancedOptions">
+                            Advanced Options
+                        </button>
+                    </div>
+
+                    <div class="collapse" id="advancedOptions">
+                        <div class="form-group">
+
+                            <label for="trackURL">Enter Track URL (spotify):</label>
+                            <input type="url" id="trackURL" name="trackURL">
+
+                            <label for="popularity">Enter Popularity:</label>
+                            <input type="number" id="popularity" name="popularity" min="0" max="100" step="1" value="0">
+
+                            <label for="danceability">Enter Danceability:</label>
+                            <input type="number" id="danceability" name="danceability" min="0" max="100" step="1" value="0">
+
+                            <label for="energy">Enter Energy:</label>
+                            <input type="number" id="energy" name="energy" min="0" max="100" step="1" value="0">
+
+                            <label for="loudness">Enter Loudness:</label>
+                            <input type="number" id="loudness" name="loudness" min="0" max="100" step="1" value="0">
+
+                            <label for="speechiness">Enter Speechiness:</label>
+                            <input type="number" id="speechiness" name="speechiness" min="0" max="100" step="1" value="0">
+
+                            <label for="acousticness">Enter Acousticness:</label>
+                            <input type="number" id="acousticness" name="acousticness" min="0" max="100" step="1" value="0">
+                            
+                            <label for="instrumentalness">Enter Instrumentalness:</label>
+                            <input type="number" id="instrumentalness" name="instrumentalness" min="0" max="100" step="1" value="0">
+
+                            <label for="liveness">Enter Liveness:</label>
+                            <input type="number" id="liveness" name="liveness" min="0" max="100" step="1" value="0">
+                            
+                            <label for="happiness">Enter Valence:</label>
+                            <input type="number" id="happiness" name="happiness" min="0" max="100" step="1" value="0">
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+          </div>
+          <div id="addAlbum" class="tab-pane fade">
+            <h2>Add Album Content</h2>
+                <form method="POST">
+                    <div class="form-group">
+                        <label for="album">Enter album name:</label>
+                        <input type="text" name="album" id="album" placeholder="Required" required><br>
+
+                        <label for="artist">Enter artist name:</label>
+                        <input type="text" name="artist" id="artist" placeholder="Required" required><br>
+
+                        <label for="albumReleaseDate">Enter Release Date (Required):</label>
+                        <input type="date" name="albumReleaseDate" id="albumReleaseDate" required><br>
+                        
+                        <label for="genres">Enter genre(s):</label>
+                        <input type="text" name="genres" id="genres" placeholder="Rock, Pop, Disco...">
+
+                        <label for="averageRating">Enter Average Rating (0 - 5):</label>
+                        <input type="number" name="averageRating" id="averageRating" min="0" max="5" step="0.01" value="0">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+          </div>
+          <div id="addArtist" class="tab-pane fade">
+            <h2>Add Artist Content</h2>
+                <form method="POST">
+                    <div class="form-group">
+                        <label for="name">Enter artist name:</label>
+                        <input type="text" name="name" id="name" placeholder="Required" required><br>
+
+                        <label for="genre">Enter genre(s):</label>
+                        <input type="text" name="genre" id="genre" placeholder="Required" required><br>
+
+                        <label for="facebook">Enter Facebook URL:</label>
+                        <input type="url" name="facebook" id="facebook" placeholder="www.facebook.com/..."><br>
+
+                        <label for="twitter">Enter Twitter URL:</label>
+                        <input type="url" name="twitter" id="twitter" placeholder="www.twitter.com/..."><br>
+
+                        <label for="website">Enter Website URL:</label>
+                        <input type="url" name="website" id="website" placeholder="www.example.com/..."><br>
+
+                        <label for="mtv">Enter MTV URL:</label>
+                        <input type="url" name="mtv" id="mtv" placeholder="www.mtv.com/...">
+
+                    
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+          </div>
+        </div>
+      </div>
+      <div id="removeTab" class="tab-pane fade">
+        <ul class="nav nav-pills">
+          <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#removeSong">Song</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#removeAlbum">Album</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#removeArtist">Artist</a>
+          </li>
+        </ul>
+        <br>
+        <div class="tab-content">
+          <div id="removeSong" class="tab-pane fade show active">
+            <h2>Remove Song Content</h2>
+            <form method="POST">
+                <div class="form-group">
+                    <label for="remove_song_title">Enter Song Title:</label>
+                    <input type="text" id="remove_song_title" name="remove_song_title" placeholder="Required" required>
+
+                    <label for="remove_song_artist">Enter Artist Name:</label>
+                    <input type="text" id="remove_song_artist" name="remove_song_artist" placeholder="Required" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+          </div>
+          <div id="removeAlbum" class="tab-pane fade">
+            <h2>Remove Album Content</h2>
+            <form method="POST">
+                <div class="form-group">
+                    <label for="remove_album_title">Enter Album Title:</label>
+                    <input type="text" id="remove_album_title" name="remove_album_title" placeholder="Required" required>
+
+                    <label for="remove_album_artist">Enter Artist Name:</label>
+                    <input type="text" id="remove_album_artist" name="remove_album_artist" placeholder="Required" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+          </div>
+          <div id="removeArtist" class="tab-pane fade">
+            <h2>Remove Artist Content</h2>
+            <form method="POST">
+                <div class="form-group">
+                    <label for="remove_artist_name">Enter Artist Name:</label>
+                    <input type="text" id="remove_artist_name" name="remove_artist_name" placeholder="Required" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div id="updateTab" class="tab-pane fade">
+        <ul class="nav nav-pills">
+          <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#updateSong">Song</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#updateAlbum">Album</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#updateArtist">Artist</a>
+          </li>
+        </ul>
+        <br>
+        <div class="tab-content">
+          <div id="updateSong" class="tab-pane fade show active">
+            <h2>Update Song Content</h2>
+            <form method="POST">
+                <div class="form-group">
+                    <label for="song_to_update">Enter title of song to update:</label>
+                    <input type="text" id="song_to_update" name="song_to_update" placeholder="Required">
+
+                    <label for="song_artist_to_update">Enter artist of song to update:</label>
+                    <input type="text" id="song_artist_to_update" name="song_artist_to_update" placeholder="Required">
+
+                    <label for="song_column">Category to update:</label>
+                    <select id="song_column" name="song_column">
+                        <option value="" selected disabled>-- Select --</option>
+                        <option value="Song">Song Title</option>
+                        <option value="Artist">Artist</option>
+                        <option value="TrackURI">Song URL (spotify)</option>
+                        <option value="Album">Album Title</option>
+                        <option value="AlbumImageURL">Album Image URL</option>
+                        <option value="TrackDuration">Duration (ms)</option>
+                        <option value="Explicit">Explicit</option>
+                        <option value="Popularity">Popularity</option>
+                        <option value="Danceability">Danceability</option>
+                        <option value="Energy">Energy</option>
+                        <option value="Loudness">Loudness</option>
+                        <option value="Speechiness">Speechiness</option>
+                        <option value="Acousticness">Acousticness</option>
+                        <option value="Instrumentalness">Instrumentalness</option>
+                        <option value="Liveness">Liveness</option>
+                        <option value="Valence">Happiness</option>
+                        <option value="Label">Label</option>
+                    </select>
+
+                    <label for="song_new_value">Enter new value:</label>
+                    <input type="text" id="song_new_value" name="song_new_value" placeholder="Required" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+          </div>
+          <div id="updateAlbum" class="tab-pane fade">
+            <h2>Update Album Content</h2>
+            <form method="POST">
+                <div class="form-group">
+                    <label for="album_to_update">Enter title of album to update:</label>
+                    <input type="text" id="album_to_update" name="album_to_update" placeholder="Required" required>
+
+                    <label for="album_artist_to_update">Enter artist of album to update:</label>
+                    <input type="text" id="album_artist_to_update" name="album_artist_to_update" placeholder="Required" required>
+
+                    <label for="album_column">Category to update:</label>
+                    <select id="album_column" name="album_column">
+                        <option value="" selected disabled>-- Select --</option>
+                        <option value="Album">Title</option>
+                        <option value="Artist">Artist(s)</option>
+                        <option value="Genres">Genre(s)</option>
+                        <option value="AverageRating">Average Rating</option>
+                    </select>
+
+                    <label for="album_new_value">Enter new value:</label>
+                    <input type="text" id="album_new_value" name="album_new_value" placeholder="Required" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+          </div>
+          <div id="updateArtist" class="tab-pane fade">
+            <h2>Update Artist Content</h2>
+            <form method="POST">
+                <div class="form-group">
+                    <label for="artist_to_update">Enter name of artist(s) to update:</label>
+                    <input type="text" id="artist_to_update" name="artist_to_update" placeholder="Required" required>
+
+                    <label for="artist_column">Category to update:</label>
+                    <select id="artist_column" name="artist_column">
+                        <option value="" selected disabled>-- Select --</option>
+                        <option value="name">Name(s)</option>
+                        <option value="genre">Genre</option>
+                        <option value="facebook">Facebook URL</option>
+                        <option value="twitter">Twitter URL</option>
+                        <option value="website">Website URL</option>
+                        <option value="mtv">MTV URL</option>
+                    </select>
+
+                    <label for="artist_new_value">Enter new value:</label>
+                    <input type="text" id="artist_new_value" name="artist_new_value" placeholder="Required" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      </div>
+    </div>
+  </div>
+  
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% endblock %}

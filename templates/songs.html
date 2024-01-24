@@ -1,0 +1,368 @@
+{% extends "base.html" %} {% block title %}Song Data{% endblock %} {% block
+content %}
+<br>
+<h2 class="display-4 text-center">View Song Data</h2>
+<hr />
+<form method="POST">
+  <div class="d-flex justify-content-center mt-5">
+    <div class="btn-group" role="group" aria-label="Button group">
+      <button
+        type="button"
+        class="btn btn-secondary border"
+        onclick="location.href='/'"
+      >
+        Return Home
+      </button>
+      <button
+        type="button"
+        class="btn btn-warning border"
+        onclick="location.href='/change'"
+      >
+        Change Data
+      </button>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="song">Song title:</label>
+    <input
+      type="text"
+      class="form-control"
+      id="song"
+      name="song"
+      value="{{ search }}"
+    />
+  </div>
+  <div class="form-group">
+    <label for="artist">Artist Name:</label>
+    <input
+      type="text"
+      class="form-control"
+      id="artist"
+      name="artist"
+      value="{{ artist }}"
+    />
+  </div>
+  <div class="form-group">
+    <label for="date1">From (Year):</label>
+    <input
+      type="text"
+      class="form-control"
+      id="date1"
+      name="date1"
+      value="{{ date1 }}"
+    />
+  </div>
+  <div class="form-group">
+    <label for="date2">Until (Year):</label>
+    <input
+      type="text"
+      class="form-control"
+      id="date2"
+      name="date2"
+      value="{{ date2 }}"
+    />
+  </div>
+  <div class="form-group">
+    <label for="order">Order by:</label>
+    <select id="order" name="order">
+      <option value="" {% if not order %}selected{% endif %} disabled>-- Select --</option>
+      <option value="Popularity" {% if order == 'Popularity' %}selected{% endif %}>Popularity</option>
+      <option value="ReleaseDate" {% if order == 'ReleaseDate' %}selected{% endif %}>Release Date</option>
+      <option value="Artist" {% if order == 'Artist' %}selected{% endif %}>Artist Alphabetical</option>
+      <option value="Song" {% if order == 'Song' %}selected{% endif %}>Song Title Alphabetical</option>
+      <option value="Album" {% if order == 'Album' %}selected{% endif %}>Album Title Alphabetical</option>
+      <option value="TrackDuration" {% if order == 'TrackDuration(ms)' %}selected{% endif %}>Duration</option>
+      <option value="Danceability" {% if order == 'Danceability' %}selected{% endif %}>Danceability</option>
+      <option value="Energy" {% if order == 'Energy' %}selected{% endif %}>Energy</option>
+      <option value="Loudness" {% if order == 'Loudness' %}selected{% endif %}>Loudness</option>
+      <option value="Speechiness" {% if order == 'Speechiness' %}selected{% endif %}>Speechiness</option>
+      <option value="Acousticness" {% if order == 'Acousticness' %}selected{% endif %}>Acousticness</option>
+      <option value="Instrumentalness" {% if order == 'Instrumentalness' %}selected{% endif %}>Instrumentalness</option>
+      <option value="Liveness" {% if order == 'Liveness' %}selected{% endif %}>Liveness</option>
+      <option value="Valence" {% if order == 'Valence' %}selected{% endif %}>Happiness</option>
+      
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="explicit">Show Explicit</label>
+    <input type="checkbox" id="explicit" name="explicit" {% if explicit %}checked{% endif %}/>
+  </div>
+
+  <div class="d-flex justify-content-end">
+    <button
+      type="button"
+      class="btn btn-secondary"
+      data-toggle="collapse"
+      data-target="#advancedOptions"
+    >
+      Advanced Options
+    </button>
+  </div>
+
+  <div class="collapse" id="advancedOptions">
+    <div class="form-group">
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="stat"
+          id="stat1"
+          value="AVG"
+          checked
+        />
+        <label class="form-check-label" for="stat1"> Mean </label>
+      </div>
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="stat"
+          id="stat2"
+          value="MIN"
+          {% if stat == 'MIN' %}checked{% endif %}
+        />
+        <label class="form-check-label" for="stat2"> Minimum </label>
+      </div>
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="stat"
+          id="stat3"
+          value="MAX"
+          {% if stat == 'MAX' %}checked{% endif %}
+        />
+        <label class="form-check-label" for="stat3"> Maximum </label>
+      </div>
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="stat"
+          id="stat4"
+          value="median"
+          {% if stat == 'median' %}checked{% endif %}
+        />
+        <label class="form-check-label" for="stat4"> Median </label>
+      </div>
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="stat"
+          id="stat5"
+          value="STDDEV"
+          {% if stat == 'STDDEV' %}checked{% endif %}
+        />
+        <label class="form-check-label" for="stat5">
+          Standard deviation mean
+        </label>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="category">Category:</label>
+      <select id="category" name="category">
+        <option value="" {% if not category %}selected{% endif %} disabled>-- Select --</option>
+        <option value="TrackDuration" {% if category == 'TrackDuration(ms)' %}selected{% endif %}>Duration</option>
+        <option value="Popularity" {% if category == 'Popularity' %}selected{% endif %}>Popularity</option>
+        <option value="Danceability" {% if category == 'Danceability' %}selected{% endif %}>Danceability</option>
+        <option value="Energy" {% if category == 'Energy' %}selected{% endif %}>Energy</option>
+        <option value="Loudness" {% if category == 'Loudness' %}selected{% endif %}>Loudness</option>
+        <option value="Speechiness" {% if category == 'Speechiness' %}selected{% endif %}>Speechiness</option>
+        <option value="Acousticness" {% if category == 'Acousticness' %}selected{% endif %}>Acousticness</option>
+        <option value="Instrumentalness" {% if category == 'Instrumentalness' %}selected{% endif %}>Instrumentalness</option>
+        <option value="Valence" {% if category == 'Valence' %}selected{% endif %}>Happiness</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="chart">Show chart?</label>
+      <input type="checkbox" id="chart" name="chart" {% if chart %}checked{% endif %}/>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+<br />
+{% if stat_result or song_chart_url %}
+<h3>Advanced Results:</h3>
+{% endif %} {% if stat_result %}
+<div class="border p-3">
+  {% if stat == 'MAX' or stat == 'MIN' %}
+  <p>
+    <b
+      >{% if stat == 'MAX' %}Maximum{% else %}Minimum{% endif %} {{ category }}
+      for your search:
+    </b>
+  </p>
+  <div class="row">
+    <div class="col-md-6">
+      <ul class="list-unstyled">
+        <li>Track Name: {{ stat_result[1] }}</li>
+        <li>Artist Name: {{ stat_result[3] }}</li>
+        <li>Album Name: {{ stat_result[5] }}</li>
+        <li>Label: {{ stat_result[18] }}</li>
+        <li>Release Date: {{ stat_result[19] }}</li>
+        <li>Track URL: {{ stat_result[0] }}</li>
+        <li>Artist URL: {{ stat_result[2] }}</li>
+        <li>Album URL: {{ stat_result[4] }}</li>
+        <li>
+          Track Duration (ms): {{ (stat_result[7]/1000 / 60) | int }} min {{
+          (stat_result[7]/1000 % 60) | int }} sec
+        </li>
+        <li>Explicit: {{ stat_result[8] }}</li>
+        <li>Popularity: {{ stat_result[9] }}</li>
+        <li>Danceability: {{ stat_result[10] | int }}</li>
+        <li>Energy: {{ stat_result[11] | int }}</li>
+        <li>Loudness: {{ stat_result[12] | int }}</li>
+        <li>Speechiness: {{ stat_result[13] | int }}</li>
+        <li>Acousticness: {{ stat_result[14] | int }}</li>
+        <li>Instrumentalness: {{ stat_result[15] }}</li>
+        <li>Liveness: {{ stat_result[16] | int }}</li>
+        <li>Happiness: {{ stat_result[17] | int }}</li>
+      </ul>
+    </div>
+    <div class="col-md-6 ml-auto">
+      <img
+        src="{{ stat_result[6] }}"
+        alt="Album image not available."
+        class="img-fluid"
+        width="200"
+        height="200"
+      />
+    </div>
+  </div>
+  {% else %}
+  <p>
+    <b
+      >{% if stat == 'AVG' %}Mean{% elif stat == 'median' %}Median{% else
+      %}Standard Deviation{% endif %} {{ category }} for your search: </b
+    >{{ stat_result[0] }}
+  </p>
+</div>
+{% endif %} {% endif %} {% if song_chart_url %}
+<div class="border p-3">
+  <div class="d-flex justify-content-center">
+    <img src="{{ song_chart_url }}" alt="Chart" />
+  </div>
+</div>
+{% endif %}
+<br /><br />
+{% if page_results or results %}
+<h3>Results:</h3>
+<div class="btn-group" role="group" aria-label="Button group">
+  {% if page > 1 %}
+  <button
+    type="button"
+    class="btn btn-secondary border"
+    onclick="location.href='?page=1'"
+  >
+    First
+  </button>
+  <button
+    type="button"
+    class="btn btn-primary border"
+    onclick="location.href='?page={{ page - 1 }}'"
+  >
+    Prev
+  </button>
+  {% endif %}
+  <button type="button" class="btn btn-secondary border">Pg {{ page }}</button>
+  {% if page < (results|length / 30) | round(0, 'ceil') %} {% set last_page =
+  ((results|length / 30) | round(0, 'ceil')) | int %}
+  <button
+    type="button"
+    class="btn btn-primary border"
+    onclick="location.href='?page={{ page + 1 }}'"
+  >
+    Next
+  </button>
+  <button
+    type="button"
+    class="btn btn-secondary border"
+    onclick="location.href='?page={{ last_page }}'"
+  >
+    Last
+  </button>
+  {% endif %}
+</div>
+<br />
+{% if page_results %} {% set display = page_results %} {% else %} {% set display
+= results %} {% endif %} {% for tuple in display %}
+<div class="border p-3">
+  <div class="row">
+    <div class="col-md-6">
+      <ul class="list-unstyled">
+        <li>Track Name: {{ tuple [1] }}</li>
+        <li>Artist Name: {{ tuple[3] }}</li>
+        <li>Album Name: {{ tuple[5] }}</li>
+        <li>Label: {{ tuple[18] }}</li>
+        <li>Release Date: {{ tuple[19] }}</li>
+        <li>Track URL: {{ tuple[0] }}</li>
+        <li>Artist URL: {{ tuple[2] }}</li>
+        <li>Album URL: {{ tuple[4] }}</li>
+        <li>
+          Track Duration (ms): {{ (tuple[7]/1000 / 60) | int }} min {{
+          (tuple[7]/1000 % 60) | int }} sec
+        </li>
+        <li>Explicit: {{ tuple[8] }}</li>
+        <li>Popularity: {{ tuple[9] }}</li>
+        <li>Danceability: {{ tuple[10] | int }}</li>
+        <li>Energy: {{ tuple[11] | int }}</li>
+        <li>Loudness: {{ tuple[12] | int }}</li>
+        <li>Speechiness: {{ tuple[13] | int }}</li>
+        <li>Acousticness: {{ tuple[14] | int }}</li>
+        <li>Instrumentalness: {{ tuple[15] }}</li>
+        <li>Liveness: {{ tuple[16] | int }}</li>
+        <li>Happiness: {{ tuple[17] | int }}</li>
+      </ul>
+    </div>
+    <div class="col-md-6 ml-auto">
+      <img
+        src="{{ tuple[6] }}"
+        alt="Album image not available."
+        class="img-fluid"
+        width="200"
+        height="200"
+      />
+    </div>
+  </div>
+</div>
+{% endfor %}
+<br />
+<div class="btn-group" role="group" aria-label="Button group">
+  {% if page > 1 %}
+  <button
+    type="button"
+    class="btn btn-secondary border"
+    onclick="location.href='?page=1'"
+  >
+    First
+  </button>
+  <button
+    type="button"
+    class="btn btn-primary border"
+    onclick="location.href='?page={{ page - 1 }}'"
+  >
+    Prev
+  </button>
+  {% endif %}
+  <button type="button" class="btn btn-secondary border">Pg {{ page }}</button>
+  {% if page < (results|length / 30) | round(0, 'ceil') %} {% set last_page =
+  ((results|length / 30) | round(0, 'ceil')) | int %}
+  <button
+    type="button"
+    class="btn btn-primary border"
+    onclick="location.href='?page={{ page + 1 }}'"
+  >
+    Next
+  </button>
+  <button
+    type="button"
+    class="btn btn-secondary border"
+    onclick="location.href='?page={{ last_page }}'"
+  >
+    Last
+  </button>
+  {% endif %}
+</div>
+{% endif %} {% endblock %}
